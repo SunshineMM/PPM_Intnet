@@ -83,6 +83,7 @@ public class ModifyCarnum extends Activity {
     private OptionsPickerView pickerView, cardpickview;
     private List<String> cartypes = new ArrayList<>();
     private List<String> cardtypes = new ArrayList<>();
+    public static String mdcarnum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -315,6 +316,7 @@ public class ModifyCarnum extends Activity {
                     JSONObject datajsonobject=resultjsonobject.getJSONObject("data");
                     int mrs=datajsonobject.getInt("mrs");
                     if (mrs==1){
+                        mdcarnum=carnumedit;
                         Toasty.success(ModifyCarnum.this,"修改成功",Toast.LENGTH_SHORT,true).show();
                         App.pvRefresh=false;
                         App.mdRefresh=true;

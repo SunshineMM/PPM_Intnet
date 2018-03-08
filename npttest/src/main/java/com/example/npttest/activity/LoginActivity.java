@@ -255,6 +255,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 lin_pwd.setVisibility(View.VISIBLE);
                 lin_ver.setVisibility(View.VISIBLE);
                 loginBtnLogin.setVisibility(View.VISIBLE);
+                query_DB();
             }
         });
         // 初始化适配器
@@ -500,29 +501,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 JSONObject rpjson = null;
                 try {
                     rpjson = new JSONObject(response);
-                    JSONObject resultjson=rpjson.getJSONObject("result");
-                    JSONObject datajson = resultjson.getJSONObject("data");
-                    int lrs=datajson.getInt("lrs");
-                    username=datajson.getString("nname");
-                    App.wmon=datajson.getDouble("wmon");
-                    Constant.wtime=datajson.getLong("wtime");
-                    if (lrs==0){
-                        bindAccount();
-                        if (!Constant.domeLoginBoo){
-                            String sql_user="select * from "+ TABLE_UNAME +" where "+ Constant.UNAME+" = "+"'"+loginEdtId.getText().toString().trim()+"'" ;
-                            Log.e("TAG","条件查询："+sql_user);
-                            getdata_insert(sql_user);
+                    int code=rpjson.getInt("code");
+                    if (code==100){
+                        JSONObject resultjson=rpjson.getJSONObject("result");
+                        JSONObject datajson = resultjson.getJSONObject("data");
+                        int lrs=datajson.getInt("lrs");
+                        username=datajson.getString("nname");
+                        App.wmon=datajson.getDouble("wmon");
+                        Constant.wtime=datajson.getLong("wtime");
+                        Constant.enfree=datajson.getInt("enFree");
+                        Log.e("TAG","免费放行的权限***"+Constant.enfree);
+                        if (lrs==0){
+                            bindAccount();
+                            if (!Constant.domeLoginBoo){
+                                String sql_user="select * from "+ TABLE_UNAME +" where "+ Constant.UNAME+" = "+"'"+loginEdtId.getText().toString().trim()+"'" ;
+                                Log.e("TAG","条件查询："+sql_user);
+                                getdata_insert(sql_user);
+                            }
+                            Constant.logintype=0;
+                            SPUtils.put(LoginActivity.this, Constant.LOGINTYPE,0);
+                            SPUtils.put(LoginActivity.this, Constant.ID,loginEdtId.getText().toString().trim());
+                            SPUtils.put(LoginActivity.this, Constant.PASS,MD5Utils.encode(loginEdtPwd.getText().toString().trim()));
+                            SPUtils.put(LoginActivity.this, Constant.USERNAME,username);
+                            startActivity(new Intent(LoginActivity.this,IndexActivity.class));
+                            Toasty.success(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT, true).show();
+                            finish();
+                        }else {
+                            Toasty.error(LoginActivity.this, "请检查用户名和密码", Toast.LENGTH_SHORT, true).show();
                         }
-                        Constant.logintype=0;
-                        SPUtils.put(LoginActivity.this, Constant.ID,loginEdtId.getText().toString().trim());
-                        SPUtils.put(LoginActivity.this, Constant.PASS,MD5Utils.encode(loginEdtPwd.getText().toString().trim()));
-                        SPUtils.put(LoginActivity.this, Constant.USERNAME,username);
-                        startActivity(new Intent(LoginActivity.this,IndexActivity.class));
-                        Toasty.success(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT, true).show();
-                        finish();
                     }else {
-                        Toasty.error(LoginActivity.this, "请检查用户名和密码", Toast.LENGTH_SHORT, true).show();
+                        Toasty.error(LoginActivity.this, "请检查该设备是否登记", Toast.LENGTH_SHORT, true).show();
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

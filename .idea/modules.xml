@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PPM.iml" filepath="$PROJECT_DIR$/PPM.iml" />
       <module fileurl="file://$PROJECT_DIR$/npttest/npttest.iml" filepath="$PROJECT_DIR$/npttest/npttest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plate_id_sample_service.iml" filepath="$PROJECT_DIR$/plate_id_sample_service.iml" />
     </modules>
   </component>
 </project>

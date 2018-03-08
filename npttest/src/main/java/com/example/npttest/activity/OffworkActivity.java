@@ -72,6 +72,7 @@ public class OffworkActivity extends Activity {
     private Context mContext;
     private String wtime;
     private String phone;
+    private int loginType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class OffworkActivity extends Activity {
         setContentView(R.layout.offwork);
         ButterKnife.bind(this);
         mContext = this;
+        loginType= (int) SPUtils.get(OffworkActivity.this,Constant.LOGINTYPE,0);
         username = (String) SPUtils.get(OffworkActivity.this, Constant.USERNAME, "");
         user = (String) SPUtils.get(OffworkActivity.this, Constant.ID, "");
         phone = (String) SPUtils.get(OffworkActivity.this, Constant.PHONE, "");
@@ -88,7 +90,7 @@ public class OffworkActivity extends Activity {
         offworkMoney.setText(wmon+"元");
         wtime = TimeDifferTools.getDistanceTime(Constant.wtime * 1000, gettime() * 1000);
         offworkWorktime.setText(wtime);
-        if (Constant.logintype==1){
+        if (loginType==1){
             //offworkPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             offworkPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             offworkGetverTv.setVisibility(View.VISIBLE);
@@ -113,7 +115,7 @@ public class OffworkActivity extends Activity {
                 if (TextUtils.isEmpty(offworkPassword.getText())) {
                     offworkPassword.setError("请输入密码");
                 } else {
-                    if (Constant.logintype==0){
+                    if (loginType==0){
                         //账号
                         String jsons = "{\"cmd\":\"150\",\"type\":\"" + Constant.TYPE + "\",\"code\":\"" + Constant.CODE + "\",\"dsv\":\"" + Constant.DSV + "\"," +
                                 "\"ltype\":\"0\",\"user\":\"" + user + "\",\"pass\":\"" + MD5Utils.encode(offworkPassword.getText().toString().trim()) + "\"," +
@@ -121,7 +123,7 @@ public class OffworkActivity extends Activity {
                         if (App.serverurl!=null){
                             offWork(App.serverurl,jsons);
                         }
-                    }else if (Constant.logintype==1){
+                    }else if (loginType==1){
                         //验证码
                         String jsons = "{\"cmd\":\"150\",\"type\":\"" + Constant.TYPE + "\",\"code\":\"" + Constant.CODE + "\",\"dsv\":\"" + Constant.DSV + "\"," +
                                 "\"ltype\":\"5\",\"user\":\"" + phone + "\",\"pass\":\"" + offworkPassword.getText().toString().trim() + "\"," +

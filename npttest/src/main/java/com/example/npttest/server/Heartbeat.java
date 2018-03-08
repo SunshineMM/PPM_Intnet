@@ -10,7 +10,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.npttest.App;
 import com.example.npttest.broadcast.AlarmReceiver;
@@ -24,7 +23,6 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.MediaType;
 
@@ -123,7 +121,7 @@ public class Heartbeat extends Service {
                     public void onError(Call call, Exception e, int id) {
                         //Toast.makeText(Heartbeat.this, frequency+"", Toast.LENGTH_SHORT).show();
                             //Toasty.error(Heartbeat.this, "您的网络可能出了一点问题", Toast.LENGTH_SHORT, true).show();
-                            Log.e("TAG","无网络");
+                            Log.e("TAG","您的网络可能出了一点问题");
                     }
                     @Override
                     public void onResponse(String response, int id) {
@@ -145,10 +143,10 @@ public class Heartbeat extends Service {
                                 frequency++;
                                 if (frequency==3){
                                     //Toast.makeText(Heartbeat.this, "您的网络可能出了一点问题", Toast.LENGTH_SHORT).show();
-                                    Toasty.error(Heartbeat.this, "您的网络可能出了一点问题", Toast.LENGTH_SHORT, true).show();
+                                    //Toasty.error(Heartbeat.this, "您的网络可能出了一点问题", Toast.LENGTH_SHORT, true).show();
                                     frequency=0;
                                 }
-                                Toasty.error(Heartbeat.this, "连接已断开", Toast.LENGTH_SHORT, true).show();
+                                //Toasty.error(Heartbeat.this, "连接已断开", Toast.LENGTH_SHORT, true).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

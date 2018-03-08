@@ -85,6 +85,7 @@ public class PresenceVehicle extends Activity implements SwipeRefreshLayout.OnRe
     private String sid;
     private PresenceVehicleAdapter vehicleAdapter;
     private List<Prese> list = new ArrayList();
+    private int mdposition,coutposition;
 
     protected void onCreate(@Nullable Bundle paramBundle) {
         super.onCreate(paramBundle);
@@ -373,18 +374,49 @@ public class PresenceVehicle extends Activity implements SwipeRefreshLayout.OnRe
     }
 
     public void onRefresh() {
-        Log.e("TAG", "刷新");
+        Log.e("TAG", "刷新***"+App.zcRefresh);
         vehicleAdapter.setEnableLoadMore(false);
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 //arrayList.clear();
-                list.clear();
+
+                /*list.clear();
                 myJson.setIndex(0);
                 getData();
                 if (!App.zcRefresh){
                     vehicleAdapter.notifyDataSetChanged();//防止闪退关键句
                     App.zcRefresh=false;
+                }else {
+                    App.zcRefresh=false;
+                }*/
+
+                if (!App.zcRefresh){
+                    Log.e("TAG","手动刷新");
+                    list.clear();
+                    myJson.setIndex(0);
+                    getData();
+                    vehicleAdapter.notifyDataSetChanged();//防止闪退关键句
+                    App.zcRefresh=false;
+                }else {
+                    if (App.mdRefresh){
+                        Log.e("TAG","修改车牌刷新***item+"+mdposition+"修改后的车牌"+ModifyCarnum.mdcarnum);
+                        App.mdRefresh=false;
+                        vehicleAdapter.getData().get(mdposition).setPnum(ModifyCarnum.mdcarnum);
+                        vehicleAdapter.notifyDataSetChanged();
+                        App.zcRefresh=false;
+                    }else {
+                        Log.e("TAG","出场自动刷新***item+"+coutposition);
+                        App.zcRefresh=false;
+                        list.remove(coutposition);
+                        vehicleAdapter.notifyItemRemoved(coutposition);
+                        //vehicleAdapter.notifyDataSetChanged();
+                    }
                 }
+
+                //vehicleAdapter.notifyItemRemoved(2);
+                //vehicleAdapter.notifyItemChanged(2);
+
+
                 //PresenceVehicle.access$2302(PresenceVehicle.this, 6);
                 if (preceSwipeLayout != null) {
                     preceSwipeLayout.setRefreshing(false);
@@ -435,12 +467,14 @@ public class PresenceVehicle extends Activity implements SwipeRefreshLayout.OnRe
                         modiftintent.putExtra("sid", vehicleAdapter.getData().get(position).getSid());
                         modiftintent.putExtra("position", position);
                         startActivity(modiftintent);
+                        mdposition=position;
                         break;
                     case R.id.prece_outcar:
                         carnum = vehicleAdapter.getData().get(position).getPnum();
                         cartype = vehicleAdapter.getData().get(position).getCtype();
                         sid=vehicleAdapter.getData().get(position).getSid();
                         carout(App.serverurl);
+                        coutposition=position;
                         break;
                     case R.id.prece_img:
                         final AlertDialog dialog = new AlertDialog.Builder(PresenceVehicle.this).create();

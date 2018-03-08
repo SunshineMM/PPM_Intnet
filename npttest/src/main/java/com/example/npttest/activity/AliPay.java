@@ -59,7 +59,9 @@ public class AliPay extends Activity {
         ButterKnife.bind(this);
         alipayactivity = this;
         alipaycontext = this;
-        getqr();
+        if (Constant.aliUrl!=null&&!Constant.aliUrl.equals("null")&&!Constant.aliUrl.equals("")){
+            getqr();
+        }
         alipayRmon.setText("本次支付金额："+ Constant.srmon);
     }
 

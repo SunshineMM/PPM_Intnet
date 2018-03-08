@@ -102,6 +102,8 @@ public class CaroutChargeActivity extends Activity {
     Button caroutChargeConfirm;
     @Bind(R.id.carout_charge_free)
     Button caroutChargeFree;
+    @Bind(R.id.carout_charge_free_lin)
+    LinearLayout caroutChargeFreeLin;
     private String carnum, cartype, jfType, comfirmYy, sid, pktime, srmon, snmon, ssmon;
     private double nmom, rmon, smon;
     private int ctype, cdtp;
@@ -121,7 +123,7 @@ public class CaroutChargeActivity extends Activity {
     private final int PRINTERR = 11;
     private final int CANCELPROMPT = 10;
     private final int NOPAPER = 3;
-    private Boolean printok=false;
+    private Boolean printok = false;
     private String print;
     public static Activity caroutactivity;
     SlideFromBottomPopup slideFromBottomPopup;
@@ -132,7 +134,11 @@ public class CaroutChargeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.carout_charge);
         ButterKnife.bind(this);
-        caroutactivity=this;
+        caroutactivity = this;
+        //是否为免费放行
+        if (Constant.enfree == 1) {
+            caroutChargeFreeLin.setVisibility(View.GONE);
+        }
         SpeechUtility.createUtility(CaroutChargeActivity.this, SpeechConstant.APPID + "=59df2c0c");
         Intent intent = getIntent();
         carnum = intent.getStringExtra("carnum");
@@ -144,7 +150,7 @@ public class CaroutChargeActivity extends Activity {
         nmom = intent.getDoubleExtra("nmon", 0);
         //rmon=(double)intent.getIntExtra("rmon",0);
         rmon = intent.getDoubleExtra("rmon", 0);
-        Log.e("TAG",rmon+"");
+        Log.e("TAG", rmon + "");
         smon = intent.getDoubleExtra("smon", 0);
         sid = intent.getStringExtra("sid");
         cdtp = intent.getIntExtra("cdtp", 0);
@@ -165,22 +171,22 @@ public class CaroutChargeActivity extends Activity {
         caroutChargeRmon.setText(srmon);
         caroutChargeSmon.setText(ssmon);
 
-        Constant.carnum=carnum;
-        Constant.ctype=ctype;
-        Constant.jfType=jfType;
-        Constant.itime=itime;
-        Constant.ctime=ctime;
-        Constant.comfirmYy=comfirmYy;
-        Constant.snmon=snmon;
-        Constant.ssmon=ssmon;
-        Constant.srmon=srmon+"元";
-        Constant.carnum=carnum;
-        Constant.cdtp=cdtp;
-        Constant.pvrefresh=pvrefresh;
-        Constant.pktime=pktime;
-        Constant.sid=sid;
+        Constant.carnum = carnum;
+        Constant.ctype = ctype;
+        Constant.jfType = jfType;
+        Constant.itime = itime;
+        Constant.ctime = ctime;
+        Constant.comfirmYy = comfirmYy;
+        Constant.snmon = snmon;
+        Constant.ssmon = ssmon;
+        Constant.srmon = srmon + "元";
+        Constant.carnum = carnum;
+        Constant.cdtp = cdtp;
+        Constant.pvrefresh = pvrefresh;
+        Constant.pktime = pktime;
+        Constant.sid = sid;
 
-        handler=new MyHandler();
+        handler = new MyHandler();
         //检测打印机
         new Thread(new Runnable() {
 
@@ -208,7 +214,7 @@ public class CaroutChargeActivity extends Activity {
                 }
             }
         }).start();
-        slideFromBottomPopup=new SlideFromBottomPopup(this);
+        slideFromBottomPopup = new SlideFromBottomPopup(this);
     }
 
     private class MyHandler extends Handler {
@@ -259,10 +265,10 @@ public class CaroutChargeActivity extends Activity {
                     break;
                 case PRINTVERSION:
                     if (msg.obj.equals("1")) {
-                        Log.e("TAG",printVersion);
-                    } else{
+                        Log.e("TAG", printVersion);
+                    } else {
                         //Toast.makeText(InputCarnum.this, "", Toast.LENGTH_LONG).show();
-                        Log.e("TAG","未找到打印机");
+                        Log.e("TAG", "未找到打印机");
                     }
                     break;
                 default:
@@ -314,6 +320,7 @@ public class CaroutChargeActivity extends Activity {
         //Log.e("TAG",date.getTime()/1000+"");
         return time;
     }
+
     //打印文本
     private class contentPrintThread extends Thread {
         @Override
@@ -337,37 +344,36 @@ public class CaroutChargeActivity extends Activity {
                 } else if (wordFont == 1) {
                     ThermalPrinter.setFontSize(1);
                 }*/
-               String str="\n          收费票据"
-                       + "\n----------------------------"
-                       + "\n车牌号："+carnum
-                       + "\n订单号："+sid
-                       + "\n日期："+ TimeUtils.getStrTime(String.valueOf(gettime()))
-                       + "\n----------------------------"
-                       + "\n凭证类型："+jfType
-                       + "\n入场时间："+DateTools.getDate(itime * 1000) + ""
-                       + "\n出场时间："+DateTools.getDate(ctime * 1000) + ""
-                       + "\n停车时间："+pktime
-                       + "\n应收金额："+snmon+"元"
-                       + "\n优惠金额："+ssmon+"元"
-                       + "\n实收金额："+srmon+"元"
-                       + "\n值班员："+ Constant.username
-                       + "\n地址："+ Constant.adds
-                       + "\n----------------------------"
-                       + "\n          欢迎您下次光临"
-                       ;
+                String str = "\n          收费票据"
+                        + "\n----------------------------"
+                        + "\n车牌号：" + carnum
+                        + "\n订单号：" + sid
+                        + "\n日期：" + TimeUtils.getStrTime(String.valueOf(gettime()))
+                        + "\n----------------------------"
+                        + "\n凭证类型：" + jfType
+                        + "\n入场时间：" + DateTools.getDate(itime * 1000) + ""
+                        + "\n出场时间：" + DateTools.getDate(ctime * 1000) + ""
+                        + "\n停车时间：" + pktime
+                        + "\n应收金额：" + snmon + "元"
+                        + "\n优惠金额：" + ssmon + "元"
+                        + "\n实收金额：" + srmon + "元"
+                        + "\n值班员：" + Constant.username
+                        + "\n地址：" + Constant.adds
+                        + "\n----------------------------"
+                        + "\n          欢迎您下次光临";
                 Bitmap bitmap = CreateCode(sid, BarcodeFormat.QR_CODE, 256, 256);
-                if(bitmap != null){
+                if (bitmap != null) {
                     ThermalPrinter.printLogo(bitmap);
                 }
                 ThermalPrinter.setGray(4);
                 ThermalPrinter.addString(str);
                 ThermalPrinter.printString();
                 ThermalPrinter.walkPaper(100);
-                printok=true;
+                printok = true;
             } catch (Exception e) {
                 e.printStackTrace();
                 Result = e.toString();
-                printok=false;
+                printok = false;
                 if (Result.equals("com.telpo.tps550.api.printer.NoPaperException")) {
                     nopaper = true;
                 } else if (Result.equals("com.telpo.tps550.api.printer.OverHeatException")) {
@@ -377,11 +383,11 @@ public class CaroutChargeActivity extends Activity {
                 }
             } finally {
                 handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null));
-                if (nopaper){
+                if (nopaper) {
                     handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null));
                     nopaper = false;
                     return;
-                }else {
+                } else {
                     handler.sendEmptyMessage(0x0123);
                 }
                 ThermalPrinter.stop(CaroutChargeActivity.this);
@@ -389,8 +395,8 @@ public class CaroutChargeActivity extends Activity {
         }
     }
 
-    public Bitmap CreateCode(String str, com.google.zxing.BarcodeFormat type, int bmpWidth, int bmpHeight) throws WriterException {
-        Hashtable<EncodeHintType,String> mHashtable = new Hashtable<EncodeHintType,String>();
+    public Bitmap CreateCode(String str, BarcodeFormat type, int bmpWidth, int bmpHeight) throws WriterException {
+        Hashtable<EncodeHintType, String> mHashtable = new Hashtable<EncodeHintType, String>();
         mHashtable.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         // 生成二维矩阵,编码时要指定大小,不要生成了图片以后再进行缩放,以防模糊导致识别失败
         BitMatrix matrix = new MultiFormatWriter().encode(str, type, bmpWidth, bmpHeight, mHashtable);
@@ -498,10 +504,10 @@ public class CaroutChargeActivity extends Activity {
                 intent.putExtra("pvrefresh", pvrefresh);
                 intent.putExtra("cdtp", cdtp);
                 intent.putExtra("sid", sid);
-                intent.putExtra("pktime",pktime);
-                intent.putExtra("snmon",snmon);
-                intent.putExtra("ssmon",ssmon);
-                intent.putExtra("srmon",srmon);
+                intent.putExtra("pktime", pktime);
+                intent.putExtra("snmon", snmon);
+                intent.putExtra("ssmon", ssmon);
+                intent.putExtra("srmon", srmon);
                 startActivity(intent);
                 //finish();
                 break;
@@ -534,7 +540,7 @@ public class CaroutChargeActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (slideFromBottomPopup!=null){
+        if (slideFromBottomPopup != null) {
             slideFromBottomPopup.dismiss();
         }
     }
@@ -580,18 +586,18 @@ public class CaroutChargeActivity extends Activity {
                             progressDialog = ProgressDialog.show(CaroutChargeActivity.this, "打印", "打印中，请稍后");
                             new contentPrintThread().start();
                         }else {*/
-                            carout_start_voice();
-                            Intent zdintent = new Intent(CaroutChargeActivity.this, CaroutSuccessful.class);
-                            zdintent.putExtra("carnum", carnum);
-                            zdintent.putExtra("jfType", jfType);
-                            zdintent.putExtra("ctype", ctype);
-                            zdintent.putExtra("ctime", ctime);
-                            zdintent.putExtra("itime", itime);
-                            zdintent.putExtra("pvrefresh", pvrefresh);
-                            zdintent.putExtra("paytype", 1);
-                            zdintent.putExtra("caroutprint", true);
-                            startActivity(zdintent);
-                           finish();
+                        carout_start_voice();
+                        Intent zdintent = new Intent(CaroutChargeActivity.this, CaroutSuccessful.class);
+                        zdintent.putExtra("carnum", carnum);
+                        zdintent.putExtra("jfType", jfType);
+                        zdintent.putExtra("ctype", ctype);
+                        zdintent.putExtra("ctime", ctime);
+                        zdintent.putExtra("itime", itime);
+                        zdintent.putExtra("pvrefresh", pvrefresh);
+                        zdintent.putExtra("paytype", 1);
+                        zdintent.putExtra("caroutprint", true);
+                        startActivity(zdintent);
+                        finish();
 
                     } else {
                         Toasty.error(CaroutChargeActivity.this, "订单无效需重新发起", Toast.LENGTH_SHORT, true).show();
@@ -611,7 +617,7 @@ public class CaroutChargeActivity extends Activity {
 
         public SlideFromBottomPopup(Activity context) {
             super(context);
-            this.context=context;
+            this.context = context;
             bindEvent();
         }
 
@@ -653,13 +659,13 @@ public class CaroutChargeActivity extends Activity {
                     break;
                 case R.id.tx_2:
                     //startActivity(new Intent(CaroutChargeActivity.this,WechatPay.class));
-                    Intent intent=new Intent(CaroutChargeActivity.this,WechatPay.class);
-                    intent.putExtra("money",(int)(rmon));
+                    Intent intent = new Intent(CaroutChargeActivity.this, WechatPay.class);
+                    intent.putExtra("money", (int) (rmon));
                     startActivity(intent);
                     break;
                 case R.id.tx_3:
-                    Intent intent1=new Intent(CaroutChargeActivity.this,AliPay.class);
-                    intent1.putExtra("money",(int)(rmon));
+                    Intent intent1 = new Intent(CaroutChargeActivity.this, AliPay.class);
+                    intent1.putExtra("money", (int) (rmon));
                     startActivity(intent1);
                     break;
                 default:

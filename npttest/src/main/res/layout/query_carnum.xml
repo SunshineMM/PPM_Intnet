@@ -210,7 +210,6 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:gravity="center"
-        android:background="#FFFFFF"
         android:orientation="vertical">
         <Button
             android:id="@+id/query_btn"

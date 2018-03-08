@@ -176,14 +176,14 @@ public class Admission extends Activity {
             }*//*
             Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
             admissionImg.setImageBitmap(bitmap1);*/
-
+            bitmap = BitmapFactory.decodeFile(bitmapPath);
+            Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
+            admissionImg.setImageBitmap(bitmap1);
             Bitmap newbitmap = PictureUtil.getSmallBitmap(bitmapPath, 480, 800);
             FileUtils.saveBitmap(newbitmap, pictureName());
             putbitmappath = SDPATH + pictureName() + ".JPEG";
             Log.e("TAG", "压缩后的图片路径："+putbitmappath);
-            bitmap = BitmapFactory.decodeFile(putbitmappath);
-            Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
-            admissionImg.setImageBitmap(bitmap1);
+
         }
         //设置每个edit的值
         char[] carnumber = cameraS.toCharArray();
@@ -215,8 +215,9 @@ public class Admission extends Activity {
         //输入车牌完成后的intent过滤器
         IntentFilter finishFilter = new IntentFilter(INPUT_LICENSE_COMPLETE);
         keyboardUtil = new LicenseKeyboardUtil_cario(Admission.this, edits);
-        admissionSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-        admissionSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
+        admissionSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+        admissionSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+        admissionSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
         //jump();
         ActivityManager.getInstance().addActivity(this);
         //Log.e("TAG",getConnectedType(Admission.this)+"");
@@ -484,26 +485,30 @@ public class Admission extends Activity {
             case R.id.admission_moto:
                 initcolor();
                 carType = 1;
-                admissionMotoimg.setImageResource(R.mipmap.moto_blue);
-                admissionMototext.setTextColor(Color.parseColor("#1CB9F0"));
+                admissionMoto.setBackgroundColor(Color.parseColor("#1e7db4"));
+                admissionMotoimg.setImageResource(R.mipmap.ic_moto_bike_w);
+                admissionMototext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.admission_smallcar:
                 carType = 2;
                 initcolor();
-                admissionSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-                admissionSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
+                admissionSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                admissionSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+                admissionSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.admission_middle:
                 carType = 3;
                 initcolor();
-                admissionMiddleimg.setImageResource(R.mipmap.middle_bus_blue);
-                admissionMiddletext.setTextColor(Color.parseColor("#1CB9F0"));
+                admissionMiddle.setBackgroundColor(Color.parseColor("#1e7db4"));
+                admissionMiddleimg.setImageResource(R.mipmap.ic_mid_truck_w);
+                admissionMiddletext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.admission_bigcar:
                 carType = 4;
                 initcolor();
-                admissionBigcarimg.setImageResource(R.mipmap.bigcar_blue);
-                admissionBigcartext.setTextColor(Color.parseColor("#1CB9F0"));
+                admissionBigcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                admissionBigcarimg.setImageResource(R.mipmap.ic_big_truck_w);
+                admissionBigcartext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
 
             //点击edittext显示键盘
@@ -615,14 +620,18 @@ public class Admission extends Activity {
 
     //初始化颜色
     private void initcolor() {
-        admissionMotoimg.setImageResource(R.mipmap.moto_gray);
-        admissionMototext.setTextColor(Color.parseColor("#686565"));
-        admissionSmallcarimg.setImageResource(R.mipmap.smallcar_gray);
-        admissionSmallcartext.setTextColor(Color.parseColor("#686565"));
-        admissionMiddleimg.setImageResource(R.mipmap.middlecar_gray);
-        admissionMiddletext.setTextColor(Color.parseColor("#686565"));
-        admissionBigcarimg.setImageResource(R.mipmap.bigcar_gray);
-        admissionBigcartext.setTextColor(Color.parseColor("#686565"));
+        admissionMoto.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        admissionMotoimg.setImageResource(R.mipmap.ic_moto_bike);
+        admissionMototext.setTextColor(Color.parseColor("#48495f"));
+        admissionSmallcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        admissionSmallcarimg.setImageResource(R.mipmap.ic_small_car);
+        admissionSmallcartext.setTextColor(Color.parseColor("#48495f"));
+        admissionMiddle.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        admissionMiddleimg.setImageResource(R.mipmap.ic_mid_truck);
+        admissionMiddletext.setTextColor(Color.parseColor("#48495f"));
+        admissionBigcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        admissionBigcarimg.setImageResource(R.mipmap.ic_big_truck);
+        admissionBigcartext.setTextColor(Color.parseColor("#48495f"));
     }
 
     //点击空白处隐藏键盘

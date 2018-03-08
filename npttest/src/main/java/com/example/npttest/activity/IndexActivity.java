@@ -29,7 +29,6 @@ import com.example.npttest.fragment.Fragment2;
 import com.example.npttest.fragment.Fragment3;
 import com.example.npttest.manager.ActivityManager;
 import com.example.npttest.manager.DataCleanManager;
-import com.example.npttest.server.Heartbeat;
 import com.example.npttest.util.FileSizeUtil;
 import com.example.npttest.util.MD5Utils;
 import com.example.npttest.util.SPUtils;
@@ -202,8 +201,8 @@ public class IndexActivity extends BaseActivity {
         homeTv.setTextColor(Color.parseColor("#55BEB7"));
         homeTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         indexVp.setCurrentItem(0, false);
-        intent = new Intent(IndexActivity.this, Heartbeat.class);
-        startService(intent);
+        /*intent = new Intent(IndexActivity.this, Heartbeat.class);
+        startService(intent);*/
         ActivityManager.getInstance().addActivity(this);
     }
 

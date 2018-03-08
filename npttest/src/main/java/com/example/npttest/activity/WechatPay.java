@@ -58,7 +58,9 @@ public class WechatPay extends Activity {
         StatusBarUtil.setColor(WechatPay.this, Color.parseColor("#429056"));
         ButterKnife.bind(this);
         Wechatactivity = this;
-        getqr();
+        if (Constant.wxUrl!=null&&!Constant.wxUrl.equals("null")&&!Constant.wxUrl.equals("")){
+            getqr();
+        }
         setwechatcontext(this);
         wechatpayRmon.setText("本次支付金额："+ Constant.srmon);
     }

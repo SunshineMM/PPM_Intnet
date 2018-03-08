@@ -102,7 +102,7 @@
                             android:layout_height="0dp"
                             android:text="0.00"
                             android:textColor="@color/fontcolor"
-                            android:textSize="35sp"
+                            android:textSize="30sp"
                             android:gravity="center"
                             android:layout_weight="1"/>
                     </LinearLayout>
@@ -395,33 +395,53 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/carout_charge_cancel"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/ripple_button_error_style"
-            android:text="取消出场"
-            android:textColor="#fff"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/carout_charge_cancel"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:background="@drawable/ripple_button_error_style"
+                android:text="取消出场"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/carout_charge_confirm"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/ripple_button_charge_style"
-            android:text="确定收费"
-            android:textColor="#fff"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/carout_charge_confirm"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:background="@drawable/ripple_button_charge_style"
+                android:text="确定收费"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/carout_charge_free"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/ripple_button_free_style"
-            android:text="免费出场"
-            android:textColor="#fff"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/carout_charge_free_lin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/carout_charge_free"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:background="@drawable/ripple_button_free_style"
+                android:text="免费出场"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+
     </LinearLayout>
     </RelativeLayout>

@@ -260,7 +260,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 			}
 
 		});
-
 		take_pic.setOnClickListener(new OnClickListener() {
 
 			@Override

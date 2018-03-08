@@ -1,7 +1,6 @@
 package com.example.npttest.activity;
 
 import android.Manifest;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,8 +72,8 @@ public class GuideActivity extends BaseActivity implements MPermissionHelper.Per
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide_activity);
         ButterKnife.bind(this);
-        Intent actiIntent = new Intent(GuideActivity.this, ActivateService.class);
-        bindService(actiIntent, acConnection, Service.BIND_AUTO_CREATE);
+        /*Intent actiIntent = new Intent(GuideActivity.this, ActivateService.class);
+        bindService(actiIntent, acConnection, Service.BIND_AUTO_CREATE);*/
         permissionHelper = new MPermissionHelper(this);
         //申请权限
         permissionHelper.requestPermission(this,
@@ -98,12 +96,12 @@ public class GuideActivity extends BaseActivity implements MPermissionHelper.Per
             return;
         }
         String szImei = TelephonyMgr.getDeviceId();
-        scode = "ppm" + szImei;
+        scode = "PPM" + szImei;
         guideTv.setText(scode);
         SPUtils.put(GuideActivity.this, "code", scode);
         //Content.CODE= (String) SPUtils.get(GuideActivity.this,"code","");
         try {
-            Bitmap bitmap = CreateCode("ppm" + szImei, BarcodeFormat.QR_CODE, 256, 256);
+            Bitmap bitmap = CreateCode("PPM" + szImei, BarcodeFormat.QR_CODE, 256, 256);
             guideImg.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
@@ -124,11 +122,15 @@ public class GuideActivity extends BaseActivity implements MPermissionHelper.Per
 
     @OnClick(R.id.guide_btn)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(guideEt.getText().toString().trim())){
+        /*if (TextUtils.isEmpty(guideEt.getText().toString().trim())){
             Toast.makeText(this, "授权码不能为空", Toast.LENGTH_SHORT).show();
         }else {
             activateSN();
-        }
+        }*/
+        SPUtils.put(GuideActivity.this, "frist", false);
+        SPUtils.put(GuideActivity.this, "sn", false);
+        startActivity(new Intent(GuideActivity.this, SpalshActivity.class));
+        finish();
     }
 
     //权限回调
@@ -164,8 +166,7 @@ public class GuideActivity extends BaseActivity implements MPermissionHelper.Per
             //new AlertDialog.Builder(SpalshActivity.this).setMessage("授权成功!").show();
             Toasty.success(this, "相机授权成功!", Toast.LENGTH_SHORT,true).show();
             //Toast.makeText(this, "授权成功!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(GuideActivity.this, SpalshActivity.class));
-            finish();
+
         } else if (code == 1795) {
             //new AlertDialog.Builder(SpalshActivity.this).setMessage("程序激活失败，激活的机器数量已达上限，授权码不能再更多的机器上使用").show();
             Toast.makeText(this, "激活的机器数量已达上限，授权码不能再更多的机器上使用", Toast.LENGTH_SHORT).show();
@@ -177,11 +178,13 @@ public class GuideActivity extends BaseActivity implements MPermissionHelper.Per
             Toast.makeText(this, "没有找到相应的本地授权许可数据文件", Toast.LENGTH_SHORT).show();
         } else if (code == 284) {
             //new AlertDialog.Builder(SpalshActivity.this).setMessage("授权码输入错误").show();
-            Toast.makeText(this, "授权码输入错误", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "授权码输入错误", Toast.LENGTH_SHORT).show();
         } else {
             //new AlertDialog.Builder(SpalshActivity.this).setMessage("错误码：" + code).show();
             Toast.makeText(this, "错误码：" + code, Toast.LENGTH_SHORT).show();
         }
+        startActivity(new Intent(GuideActivity.this, SpalshActivity.class));
+        finish();
     }
 
     public Bitmap CreateCode(String str, BarcodeFormat type, int bmpWidth, int bmpHeight) throws WriterException {

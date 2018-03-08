@@ -239,11 +239,13 @@ public class VerificationLogin extends AppCompatActivity {
                     JSONObject datajson = resultjson.getJSONObject("data");
                     int lrs = datajson.getInt("lrs");
                     username = datajson.getString("nname");
-                    App.wmon=datajson.getDouble("wmon");
-                    Constant.wtime=datajson.getLong("wtime");
+                    App.wmon = datajson.getDouble("wmon");
+                    Constant.wtime = datajson.getLong("wtime");
+                    SPUtils.put(VerificationLogin.this, Constant.PHONE, phone);
                     SPUtils.put(VerificationLogin.this, Constant.USERNAME, username);
                     if (lrs == 0) {
-                        Constant.logintype=1;
+                        Constant.logintype = 1;
+                        SPUtils.put(VerificationLogin.this, Constant.LOGINTYPE,1);
                         SPUtils.put(VerificationLogin.this, Constant.ID, verloginPhoneEt.getText().toString().trim());
                         Toasty.success(VerificationLogin.this, "登录成功", Toast.LENGTH_SHORT, true).show();
                         startActivity(new Intent(VerificationLogin.this, IndexActivity.class));

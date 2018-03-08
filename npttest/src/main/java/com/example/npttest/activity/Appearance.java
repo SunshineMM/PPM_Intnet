@@ -106,8 +106,8 @@ public class Appearance extends Activity {
     LinearLayout appearanceMiddle;
     @Bind(R.id.appearance_bigcarimg)
     ImageView appearanceBigcarimg;
-    @Bind(R.id.appearance_bigcartextt)
-    TextView appearanceBigcartextt;
+    @Bind(R.id.appearance_bigcartext)
+    TextView appearanceBigcartext;
     @Bind(R.id.appearance_bigcar)
     LinearLayout appearanceBigcar;
     @Bind(R.id.et_car_license_inputbox1_out)
@@ -178,13 +178,13 @@ public class Appearance extends Activity {
             }*//*
             Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
             appearanceImg.setImageBitmap(bitmap1);*/
+            bitmap = BitmapFactory.decodeFile(bitmapPath);
+            Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
+            appearanceImg.setImageBitmap(bitmap1);
             Bitmap newbitmap = PictureUtil.getSmallBitmap(bitmapPath, 480, 800);
             FileUtils.saveBitmap(newbitmap, pictureName());
             putbitmappath = SDPATH + pictureName() + ".JPEG";
             Log.e("TAG", putbitmappath);
-            bitmap = BitmapFactory.decodeFile(putbitmappath);
-            Bitmap bitmap1 = ImageCrop(bitmap, 125, 300, true);
-            appearanceImg.setImageBitmap(bitmap1);
         }
         char[] carnumber = s.toCharArray();
         if (carnumber.length == 7) {
@@ -239,32 +239,40 @@ public class Appearance extends Activity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject resultjsonobject = jsonObject.getJSONObject("result");
-                    String reason = jsonObject.getString("reason");
-                    if (reason.equals("操作成功")) {
-                        appearanceError.setVisibility(View.GONE);
+                    int code=jsonObject.getInt("code");
+                    if (code==100) {
                         JSONObject datajsonobject = resultjsonobject.getJSONObject("data");
                         int ctype = datajsonobject.getInt("ctype");
-                        carType = ctype;
-                        switch (ctype) {
-                            case 1:
-                                appearanceMotoimg.setImageResource(R.mipmap.moto_blue);
-                                appearanceMototext.setTextColor(Color.parseColor("#1CB9F0"));
-                                break;
-                            case 2:
-                                appearanceSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-                                appearanceSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
-                                break;
-                            case 3:
-                                appearanceMiddleimg.setImageResource(R.mipmap.middle_bus_blue);
-                                appearanceMiddletext.setTextColor(Color.parseColor("#1CB9F0"));
-                                break;
-                            case 4:
-                                appearanceBigcarimg.setImageResource(R.mipmap.bigcar_blue);
-                                appearanceBigcartextt.setTextColor(Color.parseColor("#1CB9F0"));
-                                break;
+                        if (ctype==0){
+                            appearanceError.setVisibility(View.VISIBLE);
+                        }else {
+                            appearanceError.setVisibility(View.GONE);
+                            carType = ctype;
+                            switch (ctype) {
+                                case 1:
+                                    appearanceMoto.setBackgroundColor(Color.parseColor("#1e7db4"));
+                                    appearanceMotoimg.setImageResource(R.mipmap.ic_moto_bike_w);
+                                    appearanceMototext.setTextColor(Color.parseColor("#FFFFFF"));
+                                    break;
+                                case 2:
+                                    appearanceSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                                    appearanceSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+                                    appearanceSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
+                                    break;
+                                case 3:
+                                    appearanceMiddle.setBackgroundColor(Color.parseColor("#1e7db4"));
+                                    appearanceMiddleimg.setImageResource(R.mipmap.ic_mid_truck_w);
+                                    appearanceMiddletext.setTextColor(Color.parseColor("#FFFFFF"));
+                                    break;
+                                case 4:
+                                    appearanceBigcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                                    appearanceBigcarimg.setImageResource(R.mipmap.ic_big_truck_w);
+                                    appearanceBigcartext.setTextColor(Color.parseColor("#FFFFFF"));
+                                    break;
+                            }
                         }
                     } else {
-                        appearanceError.setVisibility(View.VISIBLE);
+                        //Toast.makeText(Appearance.this, "出场查询", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -684,26 +692,30 @@ public class Appearance extends Activity {
             case R.id.appearance_moto:
                 initcolor();
                 carType = 1;
-                appearanceMotoimg.setImageResource(R.mipmap.moto_blue);
-                appearanceMototext.setTextColor(Color.parseColor("#1CB9F0"));
+                appearanceMoto.setBackgroundColor(Color.parseColor("#1e7db4"));
+                appearanceMotoimg.setImageResource(R.mipmap.ic_moto_bike_w);
+                appearanceMototext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.appearance_smallcar:
                 carType = 2;
                 initcolor();
-                appearanceSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-                appearanceSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
+                appearanceSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                appearanceSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+                appearanceSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.appearance_middle:
                 carType = 3;
                 initcolor();
-                appearanceMiddleimg.setImageResource(R.mipmap.middle_bus_blue);
-                appearanceMiddletext.setTextColor(Color.parseColor("#1CB9F0"));
+                appearanceMiddle.setBackgroundColor(Color.parseColor("#1e7db4"));
+                appearanceMiddleimg.setImageResource(R.mipmap.ic_mid_truck_w);
+                appearanceMiddletext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.appearance_bigcar:
                 carType = 4;
                 initcolor();
-                appearanceBigcarimg.setImageResource(R.mipmap.bigcar_blue);
-                appearanceBigcartextt.setTextColor(Color.parseColor("#1CB9F0"));
+                appearanceBigcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                appearanceBigcarimg.setImageResource(R.mipmap.ic_big_truck_w);
+                appearanceBigcartext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
         }
     }
@@ -1023,13 +1035,17 @@ public class Appearance extends Activity {
 
     //初始化颜色
     private void initcolor() {
-        appearanceMotoimg.setImageResource(R.mipmap.moto_gray);
-        appearanceMototext.setTextColor(Color.parseColor("#686565"));
-        appearanceSmallcarimg.setImageResource(R.mipmap.smallcar_gray);
-        appearanceSmallcartext.setTextColor(Color.parseColor("#686565"));
-        appearanceMiddleimg.setImageResource(R.mipmap.middlecar_gray);
-        appearanceMiddletext.setTextColor(Color.parseColor("#686565"));
-        appearanceBigcarimg.setImageResource(R.mipmap.bigcar_gray);
-        appearanceBigcartextt.setTextColor(Color.parseColor("#686565"));
+        appearanceMoto.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        appearanceMotoimg.setImageResource(R.mipmap.ic_moto_bike);
+        appearanceMototext.setTextColor(Color.parseColor("#48495f"));
+        appearanceSmallcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        appearanceSmallcarimg.setImageResource(R.mipmap.ic_small_car);
+        appearanceSmallcartext.setTextColor(Color.parseColor("#48495f"));
+        appearanceMiddle.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        appearanceMiddleimg.setImageResource(R.mipmap.ic_mid_truck);
+        appearanceMiddletext.setTextColor(Color.parseColor("#48495f"));
+        appearanceBigcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        appearanceBigcarimg.setImageResource(R.mipmap.ic_big_truck);
+        appearanceBigcartext.setTextColor(Color.parseColor("#48495f"));
     }
 }

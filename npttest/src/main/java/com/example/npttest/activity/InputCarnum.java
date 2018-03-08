@@ -172,8 +172,9 @@ public class InputCarnum extends Activity implements CompoundButton.OnCheckedCha
                 inputcarInputbox4, inputcarInputbox5, inputcarInputbox6,
                 inputcarInputbox7, inputcarInputbox8};
         keyboardUtil = new LicenseKeyboardUtil_input(InputCarnum.this, edits);
-        inputcarSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-        inputcarSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
+        inputcarSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+        inputcarSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+        inputcarSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
         comCity = (String) SPUtils.get(InputCarnum.this, Constant.COM_CITY, "");
         char[] chars = comCity.toCharArray();
         if (TextUtils.isEmpty(comCity)) {
@@ -614,26 +615,30 @@ public class InputCarnum extends Activity implements CompoundButton.OnCheckedCha
             case R.id.inputcar_moto:
                 initcolor();
                 carType = 1;
-                inputcarMotoimg.setImageResource(R.mipmap.moto_blue);
-                inputcarMototext.setTextColor(Color.parseColor("#1CB9F0"));
+                inputcarMoto.setBackgroundColor(Color.parseColor("#1e7db4"));
+                inputcarMotoimg.setImageResource(R.mipmap.ic_moto_bike_w);
+                inputcarMototext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.inputcar_smallcar:
                 carType = 2;
                 initcolor();
-                inputcarSmallcarimg.setImageResource(R.mipmap.smallcar_blue);
-                inputcarSmallcartext.setTextColor(Color.parseColor("#1CB9F0"));
+                inputcarSmallcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                inputcarSmallcarimg.setImageResource(R.mipmap.ic_small_car_w);
+                inputcarSmallcartext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.inputcar_middle:
                 carType = 3;
                 initcolor();
-                inputcarMiddleimg.setImageResource(R.mipmap.middle_bus_blue);
-                inputcarMiddletext.setTextColor(Color.parseColor("#1CB9F0"));
+                inputcarMiddle.setBackgroundColor(Color.parseColor("#1e7db4"));
+                inputcarMiddleimg.setImageResource(R.mipmap.ic_mid_truck_w);
+                inputcarMiddletext.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
             case R.id.inputcar_bigcar:
                 carType = 4;
                 initcolor();
-                inputcarBigcarimg.setImageResource(R.mipmap.bigcar_blue);
-                inputcarBigcartextt.setTextColor(Color.parseColor("#1CB9F0"));
+                inputcarBigcar.setBackgroundColor(Color.parseColor("#1e7db4"));
+                inputcarBigcarimg.setImageResource(R.mipmap.ic_big_truck_w);
+                inputcarBigcartextt.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
         }
     }
@@ -1185,14 +1190,18 @@ public class InputCarnum extends Activity implements CompoundButton.OnCheckedCha
 
     //初始化颜色
     private void initcolor() {
-        inputcarMotoimg.setImageResource(R.mipmap.moto_gray);
-        inputcarMototext.setTextColor(Color.parseColor("#686565"));
-        inputcarSmallcarimg.setImageResource(R.mipmap.smallcar_gray);
-        inputcarSmallcartext.setTextColor(Color.parseColor("#686565"));
-        inputcarMiddleimg.setImageResource(R.mipmap.middlecar_gray);
-        inputcarMiddletext.setTextColor(Color.parseColor("#686565"));
-        inputcarBigcarimg.setImageResource(R.mipmap.bigcar_gray);
-        inputcarBigcartextt.setTextColor(Color.parseColor("#686565"));
+        inputcarMoto.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        inputcarMotoimg.setImageResource(R.mipmap.ic_moto_bike);
+        inputcarMototext.setTextColor(Color.parseColor("#48495f"));
+        inputcarSmallcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        inputcarSmallcarimg.setImageResource(R.mipmap.ic_small_car);
+        inputcarSmallcartext.setTextColor(Color.parseColor("#48495f"));
+        inputcarMiddle.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        inputcarMiddleimg.setImageResource(R.mipmap.ic_mid_truck);
+        inputcarMiddletext.setTextColor(Color.parseColor("#48495f"));
+        inputcarBigcar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        inputcarBigcarimg.setImageResource(R.mipmap.ic_big_truck);
+        inputcarBigcartextt.setTextColor(Color.parseColor("#48495f"));
     }
 
     //开启新能源车牌识别

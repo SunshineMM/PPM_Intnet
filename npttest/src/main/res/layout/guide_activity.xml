@@ -28,6 +28,7 @@
         android:layout_height="256dp"
         android:layout_gravity="center"
         android:background="#20ffffff"
+        android:layout_marginTop="10dp"
         />
     <TextView
         android:id="@+id/guide_tv"
@@ -38,14 +39,16 @@
         android:textColor="#FFFFFF"
         />
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center|left"
+        android:gravity="center"
         android:paddingLeft="10dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="#FFFFFF"
         android:text="请输入授权码对相机授权"/>
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
@@ -69,6 +72,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></View>
+    <TextView
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:text="温馨提示：未登记将无法使用该软件"/>
     <Button
         android:id="@+id/guide_btn"
         android:layout_width="match_parent"
@@ -76,7 +88,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/ripple_button_style"
-        android:text="完  成"
+        android:text="我已登记"
         android:textColor="#fff"
         android:layout_marginBottom="15dp"
         android:textSize="20sp" />

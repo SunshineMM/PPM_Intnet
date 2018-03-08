@@ -14,7 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
 import com.example.npttest.App;
 import com.example.npttest.R;
 import com.example.npttest.activity.Admission;
@@ -23,7 +28,7 @@ import com.example.npttest.activity.InputCarnum;
 import com.example.npttest.activity.PresenceVehicle;
 import com.example.npttest.activity.SpalshActivity;
 import com.example.npttest.activity.SurplusCarParkingLot;
-import com.example.npttest.camera.CameraActivity;
+import com.example.npttest.camera.CameraActivityBaidu;
 import com.example.npttest.constant.Constant;
 import com.example.npttest.linearlayout.MyLayout;
 import com.example.npttest.linearlayout.MyLayoutIn;
@@ -81,6 +86,7 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     public static TextView shengyTv;
     public static TextView pvcarTv;
     List<Integer> images = new ArrayList<>();
+    private boolean hasGotToken = false;//是否获取token
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,9 +96,32 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         images.add(R.mipmap.img_3);
         images.add(R.mipmap.img_4);
         images.add(R.mipmap.img_5);
-
+        initAccessTokenWithAkSk();
     }
 
+    private void initAccessTokenWithAkSk() {
+        OCR.getInstance().initAccessTokenWithAkSk(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken result) {
+                String token = result.getAccessToken();
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+                //alertText("AK，SK方式获取token失败", error.getMessage());
+                Log.e("TAG","AK，SK方式获取token失败");
+            }
+        }, getContext(), "d34eA1GpPiuGgCK8GcrXedxU", "k6DvClDyCpmVWY9CdUt1arq7a3AeQGGS");
+    }
+
+    private boolean checkTokenStatus() {
+        if (!hasGotToken) {
+            Toast.makeText(getContext(), "token还未成功获取", Toast.LENGTH_LONG).show();
+        }
+        return hasGotToken;
+    }
     private void jump() {
         TranslateAnimation down = new TranslateAnimation(0, 0, -300, 0);//位移动画，从button的上方300像素位置开始
         down.setFillAfter(true);
@@ -152,17 +181,20 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_car_into:
+                if (!checkTokenStatus()) {
+                    return;
+                }
                 type = 1;
                 //jumpVideoRecog();
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                intent.putExtra("camera", true);
+                Intent intent = new Intent(getActivity(), CameraActivityBaidu.class);
+                //intent.putExtra("camera", true);
                 //startActivity(intent);
                 startActivityForResult(intent, 0x11);
                 break;
             case R.id.fg_car_out:
                 type = 2;
-                Intent intent1 = new Intent(getActivity(), CameraActivity.class);
-                intent1.putExtra("camera", true);
+                Intent intent1 = new Intent(getActivity(), CameraActivityBaidu.class);
+                //intent1.putExtra("camera", true);
                 //startActivity(intent);
                 startActivityForResult(intent1, 0x11);
                 //jumpVideoRecog();
@@ -271,17 +303,19 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (data!=null){
             number = data.getStringExtra("number").toString();
-            color = data.getStringExtra("color").toString();
+            //color = data.getStringExtra("color").toString();
             bitmapPath = data.getStringExtra("path").toString();
             if (number.equals("null")) {
-
+                Log.e("TAG","未识别");
             } else if (type == 1) {
+                Log.e("TAG","入场");
                 Intent intent = new Intent(getActivity(), Admission.class);
                 intent.putExtra("number", number);
                 intent.putExtra("color", color);
                 intent.putExtra("path", bitmapPath);
                 startActivity(intent);
             } else if (type == 2) {
+                Log.e("TAG","出场");
                 Intent intent = new Intent(getActivity(), Appearance.class);
                 intent.putExtra("number", number);
                 intent.putExtra("color", color);

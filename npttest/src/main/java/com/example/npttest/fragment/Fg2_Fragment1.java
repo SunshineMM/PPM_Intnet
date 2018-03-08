@@ -140,8 +140,8 @@ public class Fg2_Fragment1 extends Fragment implements SwipeRefreshLayout.OnRefr
                         JSONObject jsonObject = listjsAr.getJSONObject(i);
                         Carinto carinto = new Carinto();
                         carinto.setCnum(jsonObject.getString("cnum"));
-                        carinto.setPnum(jsonObject.getString("pnum"));
                         carinto.setItime(jsonObject.getInt("itime"));
+                        carinto.setPnum(jsonObject.getString("pnum"));
                         carinto.setIurl(jsonObject.getString("iurl"));
                         carinto.setSid(jsonObject.getString("sid"));
                         carinto.setCtype(jsonObject.getString("ctype"));
