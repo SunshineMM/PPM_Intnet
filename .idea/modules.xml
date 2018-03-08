@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PPM.iml" filepath="$PROJECT_DIR$/PPM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PPM_Intnet.iml" filepath="$PROJECT_DIR$/PPM_Intnet.iml" />
       <module fileurl="file://$PROJECT_DIR$/npttest/npttest.iml" filepath="$PROJECT_DIR$/npttest/npttest.iml" />
     </modules>
   </component>
