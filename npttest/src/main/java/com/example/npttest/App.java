@@ -30,11 +30,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        /*strings.add("放行备注1");
-        strings.add("放行备注2");
-        strings.add("放行备注3");
-        strings.add("放行备注4");
-        strings.add("放行备注5");*/
         Log.e("TAG","Appcreate");
         dbHelper=new DBHelper(this);
         initCloudChannel(this);
